@@ -1,0 +1,19 @@
+# dependencies
+node_modules/
+
+# install.mjs / cordis.patch.yml 的备份（<file>.bak-dsh-session-archive-<时间戳>）
+*.bak-*
+*.bak
+
+# 测试与覆盖率产物
+coverage/
+.nyc_output/
+
+# 市场中转/自指符号链接：本包目录里曾出现过一个指向自身的链接
+# （`dsh-session-archive -> <本目录>`），会让递归工具陷入循环，务必不要提交
+dsh-session-archive
+
+# 编辑器 / 操作系统
+.DS_Store
+Thumbs.db
+*.log

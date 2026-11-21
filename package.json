@@ -1,0 +1,68 @@
+{
+  "name": "dsh-session-archive",
+  "version": "0.9.0",
+  "description": "DSH web plugin: session archive management — restore archived sessions, delete them into a recoverable trash, and manage that trash manually. No native service replacement, no DOM injection, no self-updater.",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lakersoul/dsh-session-archive.git"
+  },
+  "homepage": "https://github.com/lakersoul/dsh-session-archive#readme",
+  "bugs": {
+    "url": "https://github.com/lakersoul/dsh-session-archive/issues"
+  },
+  "type": "module",
+  "main": "lib/index.js",
+  "exports": {
+    ".": {
+      "default": "./lib/index.js"
+    },
+    "./client": "./lib/client.js",
+    "./package.json": "./package.json"
+  },
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    },
+    "client": {
+      "platform": "web",
+      "inject": [
+        "@deepseek-ai/dsh-client-locale"
+      ]
+    }
+  },
+  "author": "lakersoul",
+  "files": [
+    "lib/index.js",
+    "lib/paths.js",
+    "lib/archive-list.js",
+    "lib/unarchive.js",
+    "lib/trash.js",
+    "lib/trash-io.js",
+    "lib/client.js",
+    "cordis.patch.yml",
+    "install.mjs",
+    "README.md",
+    "CHANGELOG.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "check": "node --check lib/index.js && node --check lib/client.js && node --check lib/paths.js && node --check lib/archive-list.js && node --check lib/unarchive.js && node --check lib/trash.js && node --check lib/trash-io.js && node --check install.mjs",
+    "test": "node test/run.mjs",
+    "coverage": "node test/coverage.mjs",
+    "e2e": "node test/e2e-runtime.mjs"
+  },
+  "keywords": [
+    "deepseek-harness",
+    "dsh",
+    "cordis",
+    "plugin",
+    "session",
+    "archive",
+    "trash",
+    "restore"
+  ],
+  "license": "MIT",
+  "engines": {
+    "node": ">=20"
+  }
+}

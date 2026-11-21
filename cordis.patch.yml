@@ -1,0 +1,15 @@
+# dsh-session-archive —— bundle 装配层
+#
+# 本文件只做一件事：把本插件自己插进组合。
+#
+# 刻意**不 disabled 任何原生行**。这是与 @michengai/dsh-archive-manager 最本质的
+# 区别，也是本项目的第一条设计约束：一个会禁用原生核心服务行（workspace /
+# session-projection-cache / ui-workspace）的插件，其安装状态就直接决定了 DSH
+# 能否启动；一旦半装半卸就是「原生被禁 + 替代未插 = 两头空 → 启动中止」。
+# 本插件只**消费**官方服务，绝不替换，所以最坏情况是功能缺失，而不是 DSH 起不来。
+#
+# 行名用包名（而非绝对路径）：bundle 层里本包已通过 link: 安装进 profile 的
+# node_modules，按名字解析才能跟随包目录搬家。
+- insert:
+    - id: session-archive
+      name: 'dsh-session-archive'
