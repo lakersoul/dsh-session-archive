@@ -5,6 +5,8 @@ A DSH Web plugin for **session archive management** — restore archived session
 > Status: **complete and in real use.** Verified on DSH `0.1.5-rc.2` → `0.2.2-rc.5`;
 > 12 suites / 374 assertions plus a 40-check real-runtime e2e all pass.
 
+**English** · [中文](./README.md)
+
 ---
 
 ## Why this plugin exists
