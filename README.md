@@ -2,7 +2,8 @@
 
 DSH Web 插件：**会话归档管理** —— 恢复已归档会话、把会话删除到**可恢复的回收站**、以及手动管理该回收站。
 
-> 状态：**P0 骨架已完成**（可装配、可测试），功能按阶段接入（见「开发阶段」）。
+> 状态：**已完成并在真实运行环境使用中**。已在 DSH `0.1.5-rc.2` → `0.2.2-rc.5` 上验证，
+> 12 套 / 374 项断言 + 真实运行时 e2e 40 项全部通过。
 
 ---
 
@@ -92,18 +93,24 @@ if (ids.has(header.id)) throw new Error(`duplicate JSONL session id ... appears 
 
 ```
 patches/dsh-session-archive/
-├── package.json
+├── package.json              # 含 icon / exports（locale、icon）/ files
 ├── cordis.patch.yml          # 只 insert 自己一行，不 disabled 任何原生行
 ├── install.mjs               # 幂等安装/卸载（含"不得禁用原生行"的不变量校验）
+├── icon.svg                  # 36×36 插件图标（插件市场/设置页展示用）
+├── locale/{en,zh}.json       # meta.title / meta.description / meta.detail
+├── docs/
+│   ├── DETAIL.md             # 详情文档（仅一行图片）
+│   ├── DETAIL.zh.md
+│   └── preview.svg           # 640×300 功能预览图（无文字，明暗主题通用）
 ├── lib/
-│   ├── index.js              # 宿主：路由 + 业务（P1–P3 填充）
+│   ├── index.js              # 宿主：8 条 /api 路由 + 删除流水线
 │   ├── paths.js              # ★ 路径推导（唯一有误删风险的代码）
-│   └── client.js             # 客户端：settings.section 页面（P4 填充）
-└── test/
-    ├── run.mjs               # 统一入口
-    ├── paths.test.mjs        # 路径编码单测（硬编码期望值）
-    ├── paths.disk.test.mjs   # 路径编码单测（真实磁盘交叉验证）
-    └── host.apply.test.mjs   # host apply 冒烟（路由/生命周期/fail-loud）
+│   ├── archive-list.js       # 归档列表装配（含标题回填）
+│   ├── unarchive.js          # 取消归档（原生优先 + 回退）
+│   ├── trash.js              # 回收站纯逻辑（容量/元数据/身份校验）
+│   ├── trash-io.js           # 回收站文件操作（逐文件 rename + 反向回滚）
+│   └── client.js             # 客户端：settings.section 页面
+└── test/                     # 12 套 + e2e（详见「测试」）
 ```
 
 ## 开发阶段
@@ -116,15 +123,6 @@ patches/dsh-session-archive/
 | **P3** | 宿主删除：回收站软删全链路（`lib/trash.js` + `lib/trash-io.js` + 3 条路由 + 幽灵回归测试） | ✅ 完成 |
 | **P4** | 客户端 UI：`settings.section` 页面（双页签 + 二次确认 + 容量提示） | ✅ 完成 |
 | **P5** | 加固：可配置容量、手动批量清理、内容完整性测试、文档 | ✅ 完成 |
-
-### 尚未落地到运行环境
-
-代码已就绪但**尚未安装进 profile**（需使用者确认后执行 `node install.mjs` 并重启 DSH）。
-因此以下事项**尚未经真实运行验证**，仍属待办：
-
-- client bundle 的 `__ModuleLoader__` 格式是否被正确识别；
-- 6 条 `/api` 路由在官方认证围栏下能否被浏览器实际调用到（**客户端调用形状待 P4 定案**）；
-- `workspaceRegistry.state.archivedSessionIds` 等**宿主内部字段**在真实运行时是否与静态阅读一致。
 
 ### 已验证 / 未验证 的边界（诚实清单）
 
@@ -142,7 +140,7 @@ patches/dsh-session-archive/
 
 **已在真实 DSH 运行时验证**（`npm run e2e`）：
 
-在一个**完全隔离的 `DSH_HOME`** 里启动真实 web 实例（另选端口，绝不碰运行中的 3080），
+在一个**完全隔离的 `DSH_HOME`** 里启动真实 web 实例（另选端口，绝不碰运行中的实例），
 用 `dsh` 自身的 launch token 换取浏览器会话 cookie，然后真实调用本插件的 `/api` 路由：
 
 | 验证项 | 结果 |
@@ -154,9 +152,11 @@ patches/dsh-session-archive/
 | 跨站 `Origin` 被官方认证围栏拒绝（403） | ✅ |
 | 未认证 / 缺参数请求 fail-loud（400 / 404），不静默成功 | ✅ |
 | **完整往返**：真实会话工件 删除 → 回收站 → 恢复，**内容逐字节一致** | ✅ |
+| 客户端半边：boot 清单登记、`client.js` 进入预载批次、投递下的 bundle 含本插件代码且为 `__ModuleLoader__` 格式、含设置页座位 id | ✅ |
+| **live 会话路径**（打开过再删除，走 `detachEntered`）：删除后不再是 live、可恢复、逐字节一致 | ✅ |
+| 恢复到原工作区后 `reattached: true`（含 `createCanonical` / `attachSession`） | ✅ |
 
-**仍未验证**：只有一项 —— **浏览器里实际渲染**。客户端 bundle 的格式与座位契约已在 Node 中
-以 mock 环境执行真实客户端代码验证（`client.test.mjs`），但"页面真的显示出设置页"需要一次真实浏览器访问。
+**浏览器实际渲染**已由使用者在真实页面确认（页签出现、归档/删除/恢复/彻底清除均可用）。
 
 ### 已知的、与实现无关的边界
 
@@ -218,7 +218,7 @@ node install.mjs --remove      # 卸载
 
 ## 版本适配
 
-**已在 DSH 0.2.0-rc.2 上完整验证**（此前 0.1.7-rc.2 / 0.1.5-rc.2 亦验证过）。
+**已在 DSH 0.2.2-rc.5 上完整验证**（此前 0.2.0-rc.2 / 0.1.7-rc.2 / 0.1.5-rc.2 亦验证过）。
 
 依赖的宿主内部接口（均已逐个核对存在且形状未变）：
 
@@ -253,9 +253,9 @@ node install.mjs --remove      # 卸载
 ## 测试
 
 ```bash
-node test/run.mjs        # 12 套 / 319 项断言（快，无外部依赖）
+node test/run.mjs        # 12 套 / 374 项断言（快，无外部依赖）
 npm run coverage         # 覆盖率报告（V8 精确覆盖）
-npm run e2e              # 真实 DSH 运行时端到端（起隔离实例，约 1–2 分钟）
+npm run e2e              # 真实 DSH 运行时端到端（40 项，起隔离实例，约 1–2 分钟）
 ```
 
 `npm run e2e` 会在临时 `DSH_HOME` 中启动一个真实 web 实例，因此**不放进默认套件**。

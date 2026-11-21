@@ -1,0 +1,45 @@
+<svg width="640" height="300" viewBox="0 0 640 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- 卡片背景：浅色卡片在明暗主题下都保持可读 -->
+  <rect x="32" y="32" width="576" height="236" rx="18" fill="#F7F9FC" stroke="#DDE4EE" stroke-width="1.5" />
+
+  <!-- 左：已归档面板 -->
+  <rect x="56" y="58" width="228" height="156" rx="12" fill="#FFFFFF" stroke="#E3E9F2" stroke-width="1.5" />
+  <rect x="76" y="74" width="84" height="9" rx="4.5" fill="#C9D6E8" />
+  <rect x="72" y="96" width="196" height="32" rx="8" fill="#E8F1FD" stroke="#B9D4F5" stroke-width="1.5" />
+  <circle cx="90" cy="112" r="6" fill="#69B9FF" />
+  <rect x="104" y="107" width="104" height="7" rx="3.5" fill="#CBDDF6" />
+  <rect x="104" y="118" width="64" height="5" rx="2.5" fill="#DFEAF8" />
+  <rect x="72" y="138" width="196" height="32" rx="8" fill="#F3F6FB" />
+  <circle cx="90" cy="154" r="6" fill="#B9CBE3" />
+  <rect x="104" y="149" width="96" height="7" rx="3.5" fill="#DCE5F1" />
+  <rect x="104" y="160" width="58" height="5" rx="2.5" fill="#E7EEF7" />
+  <rect x="72" y="180" width="196" height="22" rx="7" fill="#F3F6FB" />
+  <circle cx="90" cy="191" r="5" fill="#B9CBE3" />
+  <rect x="102" y="187" width="86" height="7" rx="3.5" fill="#DCE5F1" />
+
+  <!-- 右：回收站面板 -->
+  <rect x="352" y="58" width="228" height="156" rx="12" fill="#FFFFFF" stroke="#E3E9F2" stroke-width="1.5" />
+  <rect x="372" y="74" width="64" height="9" rx="4.5" fill="#C9D6E8" />
+  <rect x="368" y="96" width="196" height="32" rx="8" fill="#FFF4EA" stroke="#F2D6B8" stroke-width="1.5" />
+  <path d="M379 107h14" stroke="#D98A3A" stroke-width="2" stroke-linecap="round" />
+  <path d="M382 107v11a2.5 2.5 0 0 0 2.5 2.5h3A2.5 2.5 0 0 0 390 118v-11" stroke="#D98A3A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+  <path d="M384.5 104h3" stroke="#D98A3A" stroke-width="2" stroke-linecap="round" />
+  <rect x="402" y="107" width="96" height="7" rx="3.5" fill="#F0DEC8" />
+  <rect x="402" y="118" width="56" height="5" rx="2.5" fill="#F8EDDF" />
+  <rect x="368" y="138" width="196" height="32" rx="8" fill="#EAF8F2" stroke="#BFE8D6" stroke-width="1.5" />
+  <path d="M386 160v-9" stroke="#05909D" stroke-width="2" stroke-linecap="round" />
+  <path d="M382.5 154.5 386 151l3.5 3.5" stroke="#05909D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+  <rect x="402" y="149" width="88" height="7" rx="3.5" fill="#CBE8DC" />
+  <rect x="402" y="160" width="52" height="5" rx="2.5" fill="#DDF1E9" />
+  <rect x="368" y="180" width="196" height="22" rx="7" fill="#F3F6FB" />
+  <circle cx="386" cy="191" r="5" fill="#B9CBE3" />
+  <rect x="400" y="187" width="80" height="7" rx="3.5" fill="#DCE5F1" />
+
+  <!-- 删除：从左到右 -->
+  <path d="M296 112h40" stroke="#324DE2" stroke-width="3.5" stroke-linecap="round" />
+  <path d="M329 104l9 8-9 8" stroke="#324DE2" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" />
+
+  <!-- 恢复：从右回左 -->
+  <path d="M470 240H198" stroke="#05909D" stroke-width="3.5" stroke-linecap="round" />
+  <path d="M205 232l-9 8 9 8" stroke="#05909D" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" />
+</svg>

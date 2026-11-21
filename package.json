@@ -12,12 +12,15 @@
   },
   "type": "module",
   "main": "lib/index.js",
+  "icon": "./icon.svg",
   "exports": {
     ".": {
       "default": "./lib/index.js"
     },
     "./client": "./lib/client.js",
-    "./package.json": "./package.json"
+    "./package.json": "./package.json",
+    "./locale/*.json": "./locale/*.json",
+    "./icon": "./icon.svg"
   },
   "dsh": {
     "bundle": {
@@ -42,8 +45,12 @@
     "cordis.patch.yml",
     "install.mjs",
     "README.md",
+    "README_EN.md",
     "CHANGELOG.md",
-    "LICENSE"
+    "LICENSE",
+    "docs",
+    "locale/*.json",
+    "icon.svg"
   ],
   "scripts": {
     "check": "node --check lib/index.js && node --check lib/client.js && node --check lib/paths.js && node --check lib/archive-list.js && node --check lib/unarchive.js && node --check lib/trash.js && node --check lib/trash-io.js && node --check install.mjs",

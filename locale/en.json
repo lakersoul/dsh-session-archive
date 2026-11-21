@@ -1,0 +1,7 @@
+{
+  "meta": {
+    "title": "Session archive",
+    "description": "Restore archived sessions, delete them into a recoverable trash, and clear that trash only when you mean it. Open Settings → Session archive: the Archived tab lists archived sessions with their titles, and the Trash tab shows deleted sessions with size and age. Deleting moves the session's files to ~/.dsh/session-archive/trash and is reversible; purging is permanent. Capacity limits only warn — nothing is ever evicted automatically.",
+    "detail": "docs/DETAIL.md"
+  }
+}
